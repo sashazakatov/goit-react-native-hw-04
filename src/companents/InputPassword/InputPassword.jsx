@@ -7,7 +7,7 @@ import { View,
 } from 'react-native';
 
 const InputPassword = ({ password, dispatch}) => {
-    const [isTextEntry, setIsTextEntry] = useState(false);
+    const [isTextEntry, setIsTextEntry] = useState(true);
     return(
         <View style={style.container}>
                 <TextInput

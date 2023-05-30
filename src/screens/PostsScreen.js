@@ -7,5 +7,4 @@ const PostsScreen = () => {
         </View>
     );
 }
-
 export default PostsScreen;

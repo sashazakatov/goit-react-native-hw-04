@@ -8,9 +8,12 @@ import {
     Keyboard, 
     Image, 
     TouchableWithoutFeedback,
+    ImageBackground,
     Alert,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
+import background from '../assets/images/background.jpg'
 import InputPassword from '../companents/InputPassword';
 
 
@@ -37,8 +40,9 @@ function reducer(state, action) {
 }
 
 const RegistrationScreen = () => {
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(true);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
     const [registerInformation, setRegisterInformation] = useReducer(reducer, initialState);
+    const navigation = useNavigation();
 
     useEffect(() => {
       const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -55,7 +59,7 @@ const RegistrationScreen = () => {
       };
     }, []);
 
-    const henadelSubmit = () => {
+    const hanadelSubmit = () => {
         const { login, email, password } = registerInformation;
 
         if(login === '' || email === '' || password === ''){
@@ -63,50 +67,61 @@ const RegistrationScreen = () => {
         }
 
         console.log(`login: ${login}, email: ${email}, password: ${password}`);
+        
+        navigation.navigate('Home');
 
         setRegisterInformation({ type: 'registerInformation/reset' });
     }
-
     return(
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={style.form}>
-        <View style={style.photo}>
-            <Pressable style={style.add}>
-                <Image source={require('../assets/icons/Union.svg')} />
-            </Pressable>
-        </View>
-        <Text style={style.title}>Реєстрація</Text>
-        <TextInput
-            style={style.input}
-            placeholder='Логін'
-            keyboardType='default'
-            value={registerInformation.login}
-            onChangeText={(payload) => 
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground 
+            source={background}
+            resizeMode="cover" 
+            style={style.container}
+        >
+            <View style={style.form}>
+                <View style={style.photo}>
+                    <Pressable style={style.add}>
+                    <Image source={require('../assets/icons/Union.svg')} />
+                    </Pressable>
+                </View>
+            <Text style={style.title}>Реєстрація</Text>
+            <TextInput
+                style={style.input}
+                placeholder='Логін'
+                keyboardType='default'
+                value={registerInformation.login}
+                onChangeText={(payload) => 
                 setRegisterInformation({ type: 'registerInformation/login', payload })
-            }
-        />
-        <TextInput
-            style={style.input}
-            placeholder='Адреса електронної пошти'
-            keyboardType='email-address'
-            value={registerInformation.email}
-            onChangeText={(payload) => 
-                setRegisterInformation({type: 'registerInformation/email', payload})
-            }
-        />
-        <InputPassword 
-            password={registerInformation.password} 
-            dispatch={setRegisterInformation}
-        />
-        { !isKeyboardOpen && (
-            <>
-                <Pressable style={style.button} onPress={henadelSubmit}>
-                    <Text style={{color: '#FFFFFF', fontSize: 16, }}>Нажми меня</Text>
-                </Pressable>
-                <Text style={style.text}>Вже є акаунт? Увійти</Text>
-            </>
-        )}
-    </View>
+                }
+            />
+            <TextInput
+                style={style.input}
+                placeholder='Адреса електронної пошти'
+                keyboardType='email-address'
+                value={registerInformation.email}
+                onChangeText={(payload) => 
+                    setRegisterInformation({type: 'registerInformation/email', payload})
+                }
+            />
+            <InputPassword 
+                password={registerInformation.password} 
+                dispatch={setRegisterInformation}
+            />
+            { !isKeyboardOpen && (
+                <>
+                    <Pressable style={style.button} onPress={hanadelSubmit}>
+                        <Text style={{color: '#FFFFFF', fontSize: 16, }}>Зареєстуватися</Text>
+                    </Pressable>
+                    <TouchableWithoutFeedback 
+                        onPress={() => navigation.navigate("LoginScreen")}
+                    >
+                        <Text style={style.text}>Немає акаунту? Зареєструватися</Text> 
+                    </TouchableWithoutFeedback>
+                </>
+            )}
+            </View>
+        </ImageBackground>
     </TouchableWithoutFeedback>
     );
 }

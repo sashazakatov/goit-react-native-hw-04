@@ -5,13 +5,14 @@ import {
     TextInput, 
     View, 
     StyleSheet, 
-    ImageBackground, 
     Keyboard, 
     TouchableWithoutFeedback,
-    Button,
-    TouchableOpacity,
-    Alert
+    Alert,
+    ImageBackground,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import background from '../assets/images/background.jpg'
 import InputPassword from '../companents/InputPassword';
 
 const initialState = {
@@ -34,8 +35,9 @@ function reducer(state, action) {
 }
 
 const LoginScreen = () => {
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(true);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
     const [registerInformation, setRegisterInformation] = useReducer(reducer, initialState);
+    const navigation = useNavigation();
 
     useEffect(() => {
       const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -53,7 +55,7 @@ const LoginScreen = () => {
     }, []);
 
 
-    const henadelSubmit = () => {
+    const hanadelSubmit = () => {
         const { email, password } = registerInformation;
 
         if( email === '' || password === ''){
@@ -61,17 +63,24 @@ const LoginScreen = () => {
         }
 
         console.log(`email: ${email}, password: ${password}`);
+        
+        navigation.navigate('Home');
 
         setRegisterInformation({ type: 'registerInformation/reset' });
     }
 
     return(
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground 
+            source={background}
+            resizeMode="cover" 
+            style={style.container}
+        >
             <View style={style.form}>
                 <View style={style.photo}>
                     {/* <Button title='add'/> */}
                 </View>
-            <Text style={style.title}>Реєстрація</Text>
+            <Text style={style.title}>Увійти</Text>
             <TextInput
                 style={style.input}
                 placeholder='Адреса електронної пошти'
@@ -87,13 +96,16 @@ const LoginScreen = () => {
             />
             { !isKeyboardOpen && (
                 <>
-                    <Pressable style={style.button} onPress={henadelSubmit}>
-                        <Text style={{color: '#FFFFFF', fontSize: 16, }}>Нажми меня</Text>
+                    <Pressable style={style.button} onPress={hanadelSubmit}>
+                        <Text style={{color: '#FFFFFF', fontSize: 16, }}>Увійти</Text>
                     </Pressable>
-                    <Text style={style.text}>Немає акаунту? Зареєструватися</Text>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('RegistrationScreen')}>
+                        <Text style={style.text}>Вже є акаунт? Увійти</Text>
+                    </TouchableWithoutFeedback>
                 </>
             )}
-        </View>
+            </View>
+        </ImageBackground>
     </TouchableWithoutFeedback>
     );
 }
