@@ -29,6 +29,7 @@ const Home = () =>{
                 tabBarActiveBackgroundColor: "#FF6C00",
                 tabBarInactiveTintColor: "#212121CC",
                 tabBarShowLabel: false,
+                headerTitleAlign: "center",
                 tabBarItemStyle: {
                     width:70,
                     height: 40,
@@ -45,31 +46,24 @@ const Home = () =>{
               })}
         >
             <Tabs.Screen
+                name='PostsScreen' 
+                component={PostsScreen}
                 options={{
                     title: "Публікації",
-                    headerTitleAlign: "center",
                     headerRight: ()=>{
                         return <Logout />;
                     },
-                }} 
-                name='PostsScreen' 
-                component={PostsScreen}
+                }}
             />
             <Tabs.Screen 
-                options={{
-                    title: "Публікації",
-                    headerTitleAlign: "center",
-                }}
                 name='CreatePostsScreen' 
                 component={CreatePostsScreen}
+                options={{ title: "Публікації" }}
             />
             <Tabs.Screen 
                 name='ProfileScreen' 
                 component={ProfileScreen}
-                options={{
-                    title: "Публікації",
-                    headerTitleAlign: "center",
-                }}
+                options={{ title: "Публікації" }}
             />
         </Tabs.Navigator>
     );

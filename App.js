@@ -1,6 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ImageBackground, TouchableWithoutFeedback,  Keyboard} from 'react-native';
-
 import LoginScreen from './src/screens/LoginScreen';
 import PostsScreen from './src/screens/PostsScreen';
 import RegistrationScreen from './src/screens/RegistrationScreen';
@@ -28,11 +25,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName='LoginScreen'>
-        <MainStack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
-        <MainStack.Screen name="PostsScreen" component={PostsScreen} options={{ headerShown: false }}/>
-        <MainStack.Screen name="RegistrationScreen" component={RegistrationScreen} options={{ headerShown: false }}/>
-        <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+      <MainStack.Navigator initialRouteName='LoginScreen' screenOptions={{ headerShown: false }}>
+        <MainStack.Screen name="LoginScreen" component={LoginScreen}/>
+        <MainStack.Screen name="PostsScreen" component={PostsScreen} />
+        <MainStack.Screen name="RegistrationScreen" component={RegistrationScreen} />
+        <MainStack.Screen name="Home" component={Home} />
       </MainStack.Navigator>
     </NavigationContainer>
   );
